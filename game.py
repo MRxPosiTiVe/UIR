@@ -15,13 +15,29 @@ def user_choice(user_value):
     return int(user_value)
 
 
+def gamestart():
+    user_answer = input("Выберите режим игры: (Турнир | Обычная)\n").lower()
+
+    while user_answer.isdigit() or user_answer not in ["турнир", "обычная"]:
+        user_answer = input(
+            "Выберите режим игры: (Турнир | Обычная)\n!НУЖНО ВВОДИТЬ ТОЛЬКО ЗНАЧЕНИЯ ИЗ СКОБОК!\n").lower()
+
+    if user_answer == "турнир":
+        tournament_game()
+    elif user_answer == "обычная":
+        simple_game()
+
+
 def simple_game():
-    play_again = input("Хотите сыграть? ").lower()
+    play_again = input("Введите ДА если хотите продолжить, либо НЕТ, чтобы сменить режим игры\n").lower()
     while play_again not in ["да", "нет"]:
-        play_again = input("Хотите сыграть? ").lower()
+        play_again = input("Нужно --> ДА | НЕТ").lower()
+
+    if play_again == "нет":
+        gamestart()
 
     while play_again == "да":
-        user_value = int(input("Камень – 1, Ножницы - 2, Бумага - 3:\n"))
+        user_value = input("Камень – 1, Ножницы - 2, Бумага - 3:\n")
         correct_user_value = user_choice(user_value)  # То что ввел игрок
         comp_value = comp_choice()  # То что ввел компуктер
 
@@ -38,8 +54,6 @@ def simple_game():
             print("Компуктер выбрал НОЖНИЦЫ")
         else:
             print("Компуктер выбрал БУМАГУ")
-
-        wins = 0
 
         if correct_user_value == 1:
             if comp_value == 1:
@@ -74,6 +88,17 @@ def simple_game():
         while play_again not in ["да", "нет"]:
             play_again = input("Хотите сыграть еще? ").lower()
 
+    if play_again == "нет":
+        userAnswer = input("Может вы хотите сменить режим игры?\nЕсли ДА то ENTER, если НЕТ то напишите ВАЛЮ").lower()
+
+        while userAnswer.isdigit() or userAnswer not in ["", "валю"]:
+            userAnswer = input("Нажмите ENTER либо введите ВАЛЮ").lower()
+
+        if userAnswer == "":
+            gamestart()
+        else:
+            print("Вы прервали игру ")
+
 
 def valid_check(amount_rounds):
     while not amount_rounds.isdigit():
@@ -90,7 +115,7 @@ def draw(comp_wins, user_wins, rounds):
     return rounds
 
 
-def mahach_game():
+def tournament_game():
     rounds = input("Введите кол-во раундов: ")
     rounds = valid_check(rounds)
 
@@ -119,8 +144,8 @@ def mahach_game():
 
         if correct_user_value == 1:
             if comp_value == 1:
-                comp_wins += 0
-                user_wins += 0
+                comp_wins += 1
+                user_wins += 1
             elif comp_value == 2:
                 user_wins += 1
             else:
@@ -130,8 +155,8 @@ def mahach_game():
             if comp_value == 1:
                 comp_wins += 1
             elif comp_value == 2:
-                comp_wins += 0
-                user_wins += 0
+                comp_wins += 1
+                user_wins += 1
             else:
                 user_wins += 1
         else:
@@ -140,8 +165,8 @@ def mahach_game():
             elif comp_value == 2:
                 comp_wins += 1
             else:
-                comp_wins += 0
-                user_wins += 0
+                comp_wins += 1
+                user_wins += 1
 
         count_rounds += 1
         if rounds == count_rounds:
@@ -152,13 +177,21 @@ def mahach_game():
     elif comp_wins < user_wins:
         print(f"\nПользователь выйграл со счетом {user_wins} : {comp_wins}")
 
+    user_answer = input("Хотите ли вы выбрать новый режим игры? Если НЕТ то нажмите ENTER\n").lower()
+    while user_answer.isdigit() or user_answer not in ["да", "нет", "не хочу", "хочу", ""]:
+        user_answer = input("Хотите ли вы выбрать новый режим игры? (да, нет, не хочу, хочу)\n").lower()
 
-user_answer = input("Выберите режим игры: (Турнир | Обычная)\n").lower()
+    if user_answer in ["да", "нет"]:
+        gamestart()
+    else:
+        print("Вы закончили игру ")
 
-while user_answer.isdigit() or user_answer not in ["турнир", "обычная"]:
-    user_answer = input("Выберите режим игры: (Турнир | Обычная)\n!НУЖНО ВВОДИТЬ ТОЛЬКО ЗНАЧЕНИЯ ИЗ СКОБОК!\n").lower()
 
-if user_answer == "турнир":
-    mahach_game()
-elif user_answer == "обычная":
-    simple_game()
+start_game = input("Хотите начать игру? ").lower()
+while start_game.isdigit() or start_game not in ["да", "нет"]:
+    user_rep = input("Ответ ДА либо НЕТ").lower()
+
+if start_game == "да":
+    gamestart()
+else:
+    print("Вы прервали игру ")
