@@ -189,7 +189,7 @@ def tournament_game():
 
 start_game = input("Хотите начать игру? ").lower()
 while start_game.isdigit() or start_game not in ["да", "нет"]:
-    user_rep = input("Ответ ДА либо НЕТ").lower()
+    start_game = input("Ответ ДА либо НЕТ:\n").lower()
 
 if start_game == "да":
     gamestart()
